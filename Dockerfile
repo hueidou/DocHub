@@ -17,7 +17,6 @@ COPY --from=build-env /go/src/github.com/TruthHun/DocHub/conf ./conf
 COPY --from=build-env /go/src/github.com/TruthHun/DocHub/dictionary ./dictionary
 COPY --from=build-env /go/src/github.com/TruthHun/DocHub/static ./static
 COPY --from=build-env /go/src/github.com/TruthHun/DocHub/views ./views
-COPY --from=build-env /go/src/github.com/TruthHun/DocHub/zoneinfo.zip ./zoneinfo.zip
 COPY --from=build-env /go/src/github.com/TruthHun/DocHub/dochub .
 
 EXPOSE 8090
