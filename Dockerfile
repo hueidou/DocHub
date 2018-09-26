@@ -1,11 +1,24 @@
-FROM truthhun/dochub:env
+FROM hueidou/dochub:build-env as build-env
 
-WORKDIR /www/dochub
+WORKDIR /go/src/github.com/TruthHun/DocHub
 
-RUN  wget https://github.com/TruthHun/DocHub/releases/download/v2.0/DocHub.V2.0_linux_amd64.zip \
-    && apt install unzip -y \
-    && unzip DocHub.V2.0_linux_amd64.zip -d /www/dochub/ \
-    && rm -rf /www/dochub/__MACOSX \
-    && chmod 0777 -R /www/dochub
+RUN go get github.com/TruthHun/gotil
 
-CMD [ "./DocHub" ]
+COPY . .
+
+RUN go build -o dochub main.go
+
+#
+FROM hueidou/dochub:env
+
+WORKDIR /app
+
+COPY --from=build-env /go/src/github.com/TruthHun/DocHub/conf ./conf
+COPY --from=build-env /go/src/github.com/TruthHun/DocHub/dictionary ./dictionary
+COPY --from=build-env /go/src/github.com/TruthHun/DocHub/static ./static
+COPY --from=build-env /go/src/github.com/TruthHun/DocHub/views ./views
+COPY --from=build-env /go/src/github.com/TruthHun/DocHub/dochub .
+
+EXPOSE 8090
+
+CMD ["/app/dochub"]

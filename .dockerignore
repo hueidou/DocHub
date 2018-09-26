@@ -1,0 +1,16 @@
+# common
+LICENSE
+README.md
+.travis.yml
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# git
+.git
+.gitattributes
+.gitignore
+
+#
+cache/
+logs/
